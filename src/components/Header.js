@@ -18,6 +18,7 @@ const Title = () => (
 const Header = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     return (
+        //Navbar with the title component
         <div className="header">
             <Title />
             <div className="nav-items">
