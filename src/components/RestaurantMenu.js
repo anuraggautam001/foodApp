@@ -15,7 +15,7 @@ const RestaurantMenu = () =>{
    },[]);
 
    async function getRestaurantInfo(){
-    const data = await fetch("https://www.swiggy.com/dapi/menu/v4/full?lat=28.5355161&lng=77.3910265&menuId=" + id);
+    const data = await fetch("https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=28.5355161&lng=77.3910265&restaurantId=" + id);
     const json = await data.json();
     console.log(json.data);
     setRestaurant(json.data);
@@ -37,9 +37,24 @@ const RestaurantMenu = () =>{
             <div>
                 <h1>Menu</h1>
                 <ul>
-                    {Object.values(restaurant?.menu?.items).map((item) => (
-                        <li key={item.id}>{item.name}</li>
-                    ))}
+                    {Object.values(restaurant?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards).map((item) => {
+
+                        if ("itemCards" in item?.card?.card) {
+                            console.log(item?.card?.card?.title);
+                            return (
+                                <div><li>{item?.card?.card?.title}</li>
+                                    {
+                                        Object.values(item?.card?.card?.itemCards).map((element) => {
+                                            return <li key={element?.card?.info?.id}>
+                                                {element?.card?.info?.name}{" "}
+                                            </li>
+                                        })
+                                    }
+                                </div>
+                            );
+                        }
+
+                    })}
                 </ul>
             </div>
         </div>
